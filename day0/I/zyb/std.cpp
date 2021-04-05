@@ -32,6 +32,7 @@ inline void print(li x){
 li n,m,a[12],f[62][1030][12],p,c[15][15],wei[1030],ni[15],nj[15];
 inline li zh(li q,li w){
 	if(w > q || w < 0) return 0;
+	q %= mo; 
 	li ans = 1;
 	for(li i = q;i > q - w;--i) (ans *= i % mo) %= mo;
 	return ans * nj[w] % mo;
