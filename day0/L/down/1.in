@@ -1,2 +1,6 @@
-This is the input of the first sample case.
-Edit this file at `down/1.in`.
+5
+30 10 10 9
+100 -10 100 50
+-30 100 50 30
+12 42 64 20
+287 123 46 31
