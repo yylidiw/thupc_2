@@ -24,8 +24,8 @@ struct Bigint {
     constexpr static const char* FORMAT = "%0" QUOTE(POWER) "d";
 
     Bigint(LL x = 0) {
-        len = 0;
         memset(d, 0, sizeof(d));
+        len = 0;
         while (x) {
             d[len++] = x % BASE;
             x /= BASE;
@@ -36,12 +36,14 @@ struct Bigint {
     const int &operator [] (const int i) const { return d[i]; }
 
     void read() {
-        static char buf[1024];
-        static int len;
-        char c = getchar();
-        while (c < '0' || '9' < c) c = getchar();
-        for (;; '0' <= c && c <= '9') {
-            
+        char s[1024];
+        scanf("%s", s);
+        int buf_len = strlen(s);
+        len = (buf_len - 1) / POWER + 1;
+        for (int i = 0; i < len; i++) {
+            for (int j = max(buf_len - (i + 1) * POWER, 0); j < buf_len - i * POWER; j++) {
+                d[i] = d[i] * 10 + s[j] - '0';
+            }
         }
     }
     void print() {
@@ -165,8 +167,22 @@ LL gcd(LL a, LL b) {
 }
 
 int main() {
-    int a = 6278 * 53123, b = 6278 * 633;
-    gcd(Bigint(a), b).println();
-    printf("%d\n", gcd(a, b));
+    int T;
+    scanf("%d", &T);
+    while (T--) {
+        Bigint a, b, c;
+        a.read();
+        b.read();
+        c.read();
+        if (!gcd(a, gcd(b, c)).is1()) {
+            puts("-1");
+            continue;
+        }
+        for (;;) {
+            Bigint d = gcd(b, c);
+            if (d.is1()) break;
+        }
+        c.println();
+    }
     return 0;
 }
