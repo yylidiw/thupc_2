@@ -1,18 +1,27 @@
 args:
-  n: 1000
+  T: 10
 compile:
   c: -O2 -std=c11
-  cpp: -O2 -std=c++14
+  cpp: -O2 -std=c++14 -w
   java: ''
   pas: -O2
   py: ''
-data: []
+data:
+- cases: [1]
+  args:
+    len: 2999
 folder: problem
 memory limit: 512 MiB
 name: K
 partial score: false
 pre: []
-samples: []
+samples:
+- cases: [2]
+  args:
+    len: 40
+- cases: [3]
+  args:
+    len: 2999
 time limit: 1.0
 title:
   zh-cn: 幸运位置

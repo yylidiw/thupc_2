@@ -8,6 +8,7 @@ using namespace std;
 #define _QUOTE(x) #x
 #define QUOTE(x) _QUOTE(x)
 static_assert(POWER <= 4);
+#define MAXL 3000
 
 using LL = long long;
 
@@ -18,8 +19,7 @@ constexpr int get_base() {
 }
 
 struct Bigint {
-    // 10^4
-    int d[255];
+    int d[MAXL / POWER + 10];
     int len;
 
     constexpr static const int BASE = get_base();
@@ -38,7 +38,7 @@ struct Bigint {
     const int &operator [] (const int i) const { return d[i]; }
 
     void read() {
-        char s[1024];
+        char s[MAXL + 10];
         scanf("%s", s);
         int buf_len = strlen(s);
         len = (buf_len - 1) / POWER + 1;
@@ -94,7 +94,7 @@ struct Bigint {
         assert(x < BASE);
         for (int i = 0; i < len; i++) ret[i] *= x;
         for (int i = 0; i < len; i++) {
-            ret[i + 1] += d[i] / BASE;
+            ret[i + 1] += ret[i] / BASE;
             ret[i] %= BASE;
         }
         if (ret[len]) ret.len++;
@@ -102,7 +102,8 @@ struct Bigint {
     }
 
     void append(int x) {
-        assert(x <= BASE);
+        if (len == 0 && x == 0) return;
+        assert(x < BASE);
         for (int i = 0; i < len; i++) d[i + 1] = d[i];
         len++;
         d[0] = x;
@@ -116,14 +117,16 @@ struct Bigint {
                 d[i] = 0;
                 continue;
             }
-            int x = r.len == a.len ? r[r.len - 1] : r[r.len - 1] * BASE + r[r.len - 2], y = a[a.len - 1];
-            int lo = max(x / (y + 1), 1), hi = min((x + 1) / y, BASE - 1);
+            // int x = r.len == a.len ? r[r.len - 1] : r[r.len - 1] * BASE + r[r.len - 2], y = a[a.len - 1];
+            // int lo = max(x / (y + 1), 1), hi = min((x + 1) / y, BASE - 1);
+            int lo = 1, hi = BASE - 1;
             while (lo <= hi) {
                 int m = lo + hi >> 1;
                 Bigint b = a.mul(m);
                 if (b <= r) d[i] = m, lo = m + 1;
                 else hi = m - 1;
             }
+            r = r - a.mul(d[i]);
         }
         len -= a.len;
         if (d[len]) len++;
@@ -156,12 +159,12 @@ Bigint operator + (const Bigint& a, const Bigint& b) {
 Bigint operator - (const Bigint& a, const Bigint& b) {
     Bigint c;
     c.len = max(a.len, b.len);
-    for (int i = c.len - 1, cur = 0; i >= 0; i--) {
-        c[i] = a[i] - b[i];
+    for (int i = 0; i < c.len; i++) {
+        c[i] += a[i] - b[i];
         if (c[i] < 0) {
             c[i] += Bigint::BASE;
-            assert(c[i + 1] > 0);
             c[i + 1]--;
+            assert(c[i] >= 0);
         }
     }
     while (c.len && c[c.len - 1] == 0) c.len--;
