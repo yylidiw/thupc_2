@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include <type_traits>
+
 using namespace std;
 
 #define POWER 4
@@ -46,7 +48,7 @@ struct Bigint {
             }
         }
     }
-    void print() {
+    void print() const {
         if (len == 0) {
             putchar('0');
         } else {
@@ -56,7 +58,7 @@ struct Bigint {
             }
         }
     }
-    void println() {
+    void println() const {
         print();
         putchar('\n');
     }
@@ -70,7 +72,7 @@ struct Bigint {
         }
         if (len && d[len - 1] == 0) len--;
     }
-    
+
     int mod2() const {
         if (len == 0 || (d[0] & 1) == 0) return 0;
         else return 1;
@@ -87,7 +89,53 @@ struct Bigint {
         if (d[len]) len++;
     }
 
+    Bigint mul(int x) const {
+        Bigint ret = *this;
+        assert(x < BASE);
+        for (int i = 0; i < len; i++) ret[i] *= x;
+        for (int i = 0; i < len; i++) {
+            ret[i + 1] += d[i] / BASE;
+            ret[i] %= BASE;
+        }
+        if (ret[len]) ret.len++;
+        return ret;
+    }
+
+    void append(int x) {
+        assert(x <= BASE);
+        for (int i = 0; i < len; i++) d[i + 1] = d[i];
+        len++;
+        d[0] = x;
+    }
+
+    void div(const Bigint& a) {
+        Bigint r = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            r.append(d[i]);
+            if (r < a) {
+                d[i] = 0;
+                continue;
+            }
+            int x = r.len == a.len ? r[r.len - 1] : r[r.len - 1] * BASE + r[r.len - 2], y = a[a.len - 1];
+            int lo = max(x / (y + 1), 1), hi = min((x + 1) / y, BASE - 1);
+            while (lo <= hi) {
+                int m = lo + hi >> 1;
+                Bigint b = a.mul(m);
+                if (b <= r) d[i] = m, lo = m + 1;
+                else hi = m - 1;
+            }
+        }
+        len -= a.len;
+        if (d[len]) len++;
+    }
+
     bool is1() const { return len == 1 && d[0] == 1; }
+
+    friend Bigint operator + (const Bigint& a, const Bigint& b);
+    friend Bigint operator - (const Bigint& a, const Bigint& b);
+    friend bool operator < (const Bigint& a, const Bigint& b);
+    friend bool operator == (const Bigint& a, const Bigint& b);
+    friend bool operator <= (const Bigint& a, const Bigint& b);
 };
 
 Bigint operator + (const Bigint& a, const Bigint& b) {
@@ -96,7 +144,7 @@ Bigint operator + (const Bigint& a, const Bigint& b) {
     for (int i = 0; i < c.len; i++) {
         c[i] += a[i] + b[i];
         if (c[i] >= Bigint::BASE) {
-            c[i + 1] ++;
+            c[i + 1]++;
             c[i] -= Bigint::BASE;
         }
     }
@@ -136,6 +184,14 @@ bool operator == (const Bigint& a, const Bigint& b) {
     return true;
 }
 
+bool operator <= (const Bigint& a, const Bigint& b) {
+    if (a.len != b.len) return a.len < b.len;
+    for (int i = a.len - 1; i >= 0; i--) {
+        if (a[i] != b[i]) return a[i] < b[i];
+    }
+    return true;
+}
+
 Bigint gcd(Bigint a, Bigint b) {
     int cnt = 0;
     for (;;) {
@@ -162,10 +218,6 @@ Bigint gcd(Bigint a, Bigint b) {
     }
 }
 
-LL gcd(LL a, LL b) {
-    return b == 0 ? a : gcd(b, a % b);
-}
-
 int main() {
     int T;
     scanf("%d", &T);
@@ -181,6 +233,7 @@ int main() {
         for (;;) {
             Bigint d = gcd(b, c);
             if (d.is1()) break;
+            c.div(d);
         }
         c.println();
     }
