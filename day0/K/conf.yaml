@@ -1,5 +1,4 @@
-args:
-  T: 10
+args: {}
 compile:
   c: -O2 -std=c11
   cpp: -O2 -std=c++14 -w
@@ -7,24 +6,42 @@ compile:
   pas: -O2
   py: ''
 data:
-- cases: [1]
-  args:
-    len: 2999
+  - cases: [1]
+    args:
+      T: 10
+      l: 18
+  - cases: [2]
+    args:
+      T: 2
+      l: 2000
+  - cases: [3]
+    args:
+      T: 10
+      l: 2000
 folder: problem
 memory limit: 512 MiB
 name: K
 partial score: false
-pre: []
 samples:
-- cases: [2]
-  args:
-    len: 40
-- cases: [3]
-  args:
-    len: 2999
+  - cases: [1]
+  - cases: [2]
+    args:
+      T: 10
+      l: 18
+  - cases: [3]
+    args:
+      T: 10
+      l: 2000
 time limit: 1.0
 title:
   zh-cn: 幸运位置
 type: program
-users: {}
+users:
+  function2:
+    std_cpp:
+      expected: == 100
+      path: function2/main.cpp
+    std_py:
+      expected: == 100
+      path: function2/main.py
 version: 2

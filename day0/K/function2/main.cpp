@@ -102,11 +102,11 @@ struct Bigint {
     }
 
     void append(int x) {
-        if (len == 0 && x == 0) return;
         assert(x < BASE);
-        for (int i = 0; i < len; i++) d[i + 1] = d[i];
-        len++;
+        if (len == 0 && x == 0) return;
+        for (int i = len - 1; i >= 0; i--) d[i + 1] = d[i];
         d[0] = x;
+        len++;
     }
 
     void div(const Bigint& a) {
@@ -126,6 +126,8 @@ struct Bigint {
                 if (b <= r) d[i] = m, lo = m + 1;
                 else hi = m - 1;
             }
+
+            auto b = a.mul(d[i]);
             r = r - a.mul(d[i]);
         }
         len -= a.len;
@@ -195,6 +197,20 @@ bool operator <= (const Bigint& a, const Bigint& b) {
     return true;
 }
 
+Bigint operator * (const Bigint& a, const Bigint& b) {
+    Bigint c;
+    for (int i = 0; i < a.len; i++) {
+        for (int j = 0; j < b.len; j++) {
+            c[i + j] += a[i] * b[j];
+            c[i + j + 1] += c[i + j] / Bigint::BASE;
+            c[i + j] %= Bigint::BASE;
+        }
+    }
+    c.len = a.len + b.len;
+    while (c.len > 0 && !c[c.len - 1]) c.len--;
+    return c;
+}
+
 Bigint gcd(Bigint a, Bigint b) {
     int cnt = 0;
     for (;;) {
@@ -233,12 +249,17 @@ int main() {
             puts("-1");
             continue;
         }
-        for (;;) {
-            Bigint d = gcd(b, c);
-            if (d.is1()) break;
-            c.div(d);
+        int cnt = 0;
+        auto d = gcd(b, c);
+        for (auto d = gcd(b, c);;) {
+            auto d2 = gcd(c, d * d);
+            if (d == d2) {
+                c.div(d);
+                c.println();
+                break;
+            }
+            d = d2;
         }
-        c.println();
     }
     return 0;
 }
