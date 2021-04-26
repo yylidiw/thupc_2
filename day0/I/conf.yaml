@@ -23,4 +23,6 @@ type: program
 users:
   zyb:
     std: {expected: == 100, path: zyb/std.cpp}
+  jxc:
+    ac: {expected: == 100, path: jxc/ac.cpp}
 version: 2
