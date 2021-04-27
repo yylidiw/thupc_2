@@ -2,7 +2,14 @@
 #include <cmath>
 #include <iostream>
 #include <cstdio>
+#include <ctime>
 #include<algorithm>
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+#ifndef M_PI_2
+#define M_PI_2 1.5707963267948966
+#endif
 using namespace std;
 
 const int MAXN=20000005;
@@ -28,24 +35,32 @@ inline void put(const char &x);
 inline void getbuf() { fread(ibuf, 1, IBUFSZ, stdin); }
 inline void putbuf() { fwrite(obuf, sizeof(char), ot - obuf, stdout); }
 inline void get(int &x) {
-  x = 0;
+  x = 0;register int y=1;
   for (; *it < '0' || *it > '9'; ++it)
-    ;
+    y = (*it == '-')?-1:1;
   for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
     ;
+  x=x*y;
   return;
 }
 inline void get(long long &x) {
-  x = 0;
+  x = 0;register int y=1;
   for (; *it < '0' || *it > '9'; ++it)
-    ;
+    y = (*it == '-')?-1:1;
   for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
     ;
+  x=x*y;
   return;
 }
 inline void get(char &x) { x = *(it++); }
 inline void put(int x) {
   int y;
+  if(x < 0){
+    x=-x;
+    *(ot++) = '-';
+  }
+  if(x == 0)
+    *(ot++) = '0';
   while (x) {
     y = x / 10;
     *(outnow++) = x - (y << 3) - (y << 1) + '0';
@@ -56,6 +71,12 @@ inline void put(int x) {
 inline void put(const char &x) { *(ot++) = x; }
 inline void put(long long x) {
   long long y;
+  if(x < 0){
+    x=-x;
+    *(ot++) = '-';
+  }
+  if(x == 0)
+    *(ot++) = '0';
   while (x) {
     y = x / 10;
     *(outnow++) = x - (y << 3) - (y << 1) + '0';
@@ -210,7 +231,10 @@ int main() {
   get(N);
   int x, y, z, r;
   for(int i=1;i<=N;i++){
-    get(x); get(y); get(z); get(r);
+    get(x);
+    get(y);
+    get(z); 
+    get(r);
     CirclePool[i]=makeCircleFromStar(x, y, z, r);
   }
   //cerr<<CirclePool[1]<<endl;
