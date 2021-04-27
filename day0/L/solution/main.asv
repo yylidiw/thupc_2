@@ -1,0 +1,29 @@
+
+%clear all;
+%close all;
+figure;
+[fx,fy,fz] = sphere(20);
+surf(fx(11:21,:), fy(11:21,:), fz(11:21,:),'LineStyle','none','Facealpha',0.35);
+axis equal;
+hold on
+circles = [
+  
+  makeCircleFromStar(26115595,8136272,49083249,20433537);
+  makeCircleFromStar(2742692,27908300,25833473,13560426);
+  makeCircleFromStar(-1660393,5191406,47618550,15025227);
+  makeCircleFromStar(-319107,1764198,53105114,9214898);
+  makeCircleFromStar(1162899,285154,55250040,10175718);
+  makeCircleFromStar(-14421359,37707002,37438436,7877737);
+  makeCircleFromStar(3898976,44585133,33469333,14050214);
+  makeCircleFromStar(463432,2446013,52700138,8357725);
+  makeCircleFromStar(41983157,1183627,37236409,3523205);
+  makeCircleFromStar(8295858,8886292,48376903,19719048);
+];
+
+
+result = RIA(length(circles),circles);
+(result(3)*2/pi*100000)
+plotCircle(result);
+for i = 1:length(circles)
+plotCircle(circles(i,:));
+end

@@ -6,66 +6,15 @@ using namespace std;
 
 const int MAXN=20000005;
 const double EPS = 1e-9;
-// io improver
-namespace io {
-  const int IBUFSZ = 30000000;
-  const int OBUFSZ = 10000000;
-  char ibuf[IBUFSZ];
-  char obuf[OBUFSZ];
-  char *it = ibuf, *ot = obuf;
-  char outbuf[21];
-  char *outnow = outbuf;
-  inline void getbuf();
-  inline void putbuf();
-  inline void get(int &x);
-  inline void get(long long &x);
-  inline void get(char &x);
-  inline void put(int x);
-  inline void put(long long x);
-  inline void put(const char &x);
 
-  inline void getbuf() { fread(ibuf, 1, IBUFSZ, stdin); }
-  inline void putbuf() { fwrite(obuf, sizeof(char), ot - obuf, stdout); }
-  inline void get(int &x) {
-    x = 0;
-    for (; *it < '0' || *it > '9'; ++it)
-      ;
-    for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
-      ;
-    return;
-  }
-  inline void get(long long &x) {
-    x = 0;
-    for (; *it < '0' || *it > '9'; ++it)
-      ;
-    for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
-      ;
-    return;
-  }
-  inline void get(char &x) { x = *(it++); }
-  inline void put(int x) {
-    int y;
-    while (x) {
-      y = x / 10;
-      *(outnow++) = x - (y << 3) - (y << 1) + '0';
-      x = y;
-    }
-    while (outnow > outbuf) *(ot++) = *(--outnow);
-  }
-  inline void put(const char &x) { *(ot++) = x; }
-  inline void put(long long x) {
-    long long y;
-    while (x) {
-      y = x / 10;
-      *(outnow++) = x - (y << 3) - (y << 1) + '0';
-      x = y;
-    }
-    while (outnow > outbuf) *(ot++) = *(--outnow);
-  }
-}  // namespace io
+inline int read()
+{
+	int x=0,y=1;char c=getchar();//y代表正负（1.-1），最后乘上x就可以了。
+	while (c<'0'||c>'9') {if (c=='-') y=-1;c=getchar();}//如果c是负号就把y赋为-1
+	while (c>='0'&&c<='9') x=x*10+c-'0',c=getchar();
+	return x*y;//乘起来输出
+}
 
-
-using namespace io;
 
 typedef struct vec3{
   double x;double y;double z;
@@ -109,6 +58,10 @@ typedef struct Circle{
   double radius;
 } Circle;
 
+
+Circle result;
+Circle CirclePool[MAXN];
+
 Circle makeCircle(const double& a,const double& b,const double& r){
   vec3 center = {cos(a)*sin(b),sin(a)*sin(b),cos(b)};
   return Circle({center,r});
@@ -145,7 +98,7 @@ Circle calcCircle(Circle A,Circle B,Circle C){
   double det = MX * AMX;
 
   if(abs(det)<EPS){
-    cout<<"Matrix inversement error. DET == 0";
+    cerr<<"Matrix inversement error. DET == 0";
   }
 
   double d1 = 1 / det;
@@ -161,10 +114,24 @@ Circle calcCircle(Circle A,Circle B,Circle C){
   auto u = A11 * A11 + A21 * A21 + A31 * A31;
   auto v = A12 * A11 + A22 * A21 + A32 * A31;
   auto w = A12 * A12 + A22 * A22 + A32 * A32;
+  if(abs(w-1) < EPS){
+    vec3 center = {
+      0,0,1
+    };
+    return Circle({center,M_PI_2});
+  }
+  if(v * v - (u - 1) * (w - 1) < EPS){
+    //cerr<< "E2"<<endl;
+    vec3 center = {
+          0,0,1
+        };
+    return Circle({center,0});
+  }
   
-  double tg = (- v - sqrt(v * v - (u - 1) * (w - 1))) / (w - 1 - 1e-14);
+  double tg = (- v - sqrt(v * v - (u - 1) * (w - 1))) / (w - 1);
   double r = atan(tg);
   double cr = cos(r),sr = sin(r);
+  
   vec3 center = {
     cr * A11 + sr * A12,
     cr * A21 + sr * A22,
@@ -174,50 +141,52 @@ Circle calcCircle(Circle A,Circle B,Circle C){
 }
 
 
-Circle CirclePool[MAXN];
-
 Circle makeCircleFromStar(int x,int y,int z,int r){
   vec3 far = vec3({(double)x,(double)y,(double)z});
   vec3 center = far.norm();
   double radius = asin(r / far.mod());
+  if(isnan(radius)){
+    cerr<<r<<" "<<far.mod()<<endl;
+  }
   return Circle({center,radius});
 }
 
-
 int main() {
-  int N;
-  cin>>N;
+  srand(time(0));
+  int N=read();
   int x, y, z, r;
   for(int i=1;i<=N;i++){
-    cin>>x>>y>>z>>r;
+    x=read(); y=read(); z=read(); r=read();
     CirclePool[i]=makeCircleFromStar(x, y, z, r);
   }
-  random_shuffle(CirclePool+1,CirclePool+N);
+  //cerr<<CirclePool[1]<<endl;
+  random_shuffle(CirclePool+1,CirclePool+N+1);
 
-  Circle result=CirclePool[1];
+  //cerr<<CirclePool[1]<<endl;
+  result=CirclePool[1];
 
   for(int i=2;i<=N;i++){
     if(
-      distance(result,CirclePool[i]) > 
-      result.radius - CirclePool[i].radius
+      distance(result,CirclePool[i]) -
+      result.radius + CirclePool[i].radius > -EPS
     ){
       
       result = CirclePool[i];
       for(int j=1;j<=i-1;j++){
         if(
-          distance(result,CirclePool[j]) > 
-          result.radius - CirclePool[j].radius
+          distance(result,CirclePool[j]) -
+          result.radius + CirclePool[j].radius > -EPS
         ){
           
           result = calcCircle(CirclePool[i],CirclePool[j]);
           for(int k=1;k<=j-1;k++){
             if(
-              distance(result,CirclePool[k]) > 
-              result.radius - CirclePool[k].radius
+              distance(result,CirclePool[k]) - 
+              result.radius + CirclePool[k].radius > -EPS
             ){
 
               result = calcCircle(CirclePool[i],CirclePool[j],CirclePool[k]);
-            
+              
             }
           }
         }
@@ -227,7 +196,7 @@ int main() {
   }
 
   //cout<<result<<endl;
-  cout<<int(result.radius/M_PI_2 * 100000)<<endl;
-
+  //cout<<int(result.radius/M_PI_2 * 100000)<<endl;
+  printf("%d",int(result.radius/M_PI_2 * 100000));
   return 0;
 }
