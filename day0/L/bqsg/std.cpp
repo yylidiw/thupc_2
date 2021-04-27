@@ -1,19 +1,71 @@
 #include <cstdio>
 #include <cmath>
 #include <iostream>
+#include <cstdio>
 #include<algorithm>
 using namespace std;
 
 const int MAXN=20000005;
 const double EPS = 1e-9;
 
-inline int read()
-{
-	int x=0,y=1;char c=getchar();//y代表正负（1.-1），最后乘上x就可以了。
-	while (c<'0'||c>'9') {if (c=='-') y=-1;c=getchar();}//如果c是负号就把y赋为-1
-	while (c>='0'&&c<='9') x=x*10+c-'0',c=getchar();
-	return x*y;//乘起来输出
+// io improver
+namespace io {
+const int IBUFSZ = 50000000;
+const int OBUFSZ = 10000000;
+char ibuf[IBUFSZ];
+char obuf[OBUFSZ];
+char *it = ibuf, *ot = obuf;
+char outbuf[21];
+char *outnow = outbuf;
+inline void getbuf();
+inline void putbuf();
+inline void get(int &x);
+inline void get(long long &x);
+inline void get(char &x);
+inline void put(int x);
+inline void put(long long x);
+inline void put(const char &x);
+inline void getbuf() { fread(ibuf, 1, IBUFSZ, stdin); }
+inline void putbuf() { fwrite(obuf, sizeof(char), ot - obuf, stdout); }
+inline void get(int &x) {
+  x = 0;
+  for (; *it < '0' || *it > '9'; ++it)
+    ;
+  for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
+    ;
+  return;
 }
+inline void get(long long &x) {
+  x = 0;
+  for (; *it < '0' || *it > '9'; ++it)
+    ;
+  for (; *it >= '0' && *it <= '9'; x = (x << 1) + (x << 3) + (*(it++) ^ 48))
+    ;
+  return;
+}
+inline void get(char &x) { x = *(it++); }
+inline void put(int x) {
+  int y;
+  while (x) {
+    y = x / 10;
+    *(outnow++) = x - (y << 3) - (y << 1) + '0';
+    x = y;
+  }
+  while (outnow > outbuf) *(ot++) = *(--outnow);
+}
+inline void put(const char &x) { *(ot++) = x; }
+inline void put(long long x) {
+  long long y;
+  while (x) {
+    y = x / 10;
+    *(outnow++) = x - (y << 3) - (y << 1) + '0';
+    x = y;
+  }
+  while (outnow > outbuf) *(ot++) = *(--outnow);
+}
+}  // namespace io
+using namespace io;
+
 
 
 typedef struct vec3{
@@ -153,10 +205,12 @@ Circle makeCircleFromStar(int x,int y,int z,int r){
 
 int main() {
   srand(time(0));
-  int N=read();
+  getbuf();
+  int N;
+  get(N);
   int x, y, z, r;
   for(int i=1;i<=N;i++){
-    x=read(); y=read(); z=read(); r=read();
+    get(x); get(y); get(z); get(r);
     CirclePool[i]=makeCircleFromStar(x, y, z, r);
   }
   //cerr<<CirclePool[1]<<endl;
@@ -197,6 +251,9 @@ int main() {
 
   //cout<<result<<endl;
   //cout<<int(result.radius/M_PI_2 * 100000)<<endl;
-  printf("%d",int(result.radius/M_PI_2 * 100000));
+  //printf("%d",int(result.radius/M_PI_2 * 100000));
+  
+  put(int(result.radius/M_PI_2 * 100000));
+  putbuf();
   return 0;
 }

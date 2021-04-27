@@ -16,6 +16,8 @@ end
 result = RIA(length(circles),circles);
 (result(3)*2/pi*100000)
 plotCircle(result);
-% for i = 1:length(circles)
-% plotCircle(circles(i,:));
-% end
+for i = 1:length(circles)
+    if mod(i,1672)==0
+        plotCircle(circles(i,:));
+    end
+end
