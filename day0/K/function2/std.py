@@ -2,7 +2,12 @@ import sys
 from copy import deepcopy
 
 def gcd(a, b):
-    return a if b == 0 else gcd(b, a % b)
+    cnt = 0
+    while True:
+        if b == 0:
+            return a
+        cnt += 1
+        a, b = b, a % b
 
 if __name__ == "__main__":
     sys.setrecursionlimit(10000000)
@@ -16,9 +21,7 @@ if __name__ == "__main__":
         n = deepcopy(c)
         while True:
             d = gcd(b, n)
-            # print(b, c, d)
             if d == 1:
                 break
             n //= d
-        # print(a * n + b, c)
         print(n)

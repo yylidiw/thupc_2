@@ -1,14 +1,12 @@
 #include <bits/stdc++.h>
 
-#include <type_traits>
-
 using namespace std;
 
 #define POWER 4
 #define _QUOTE(x) #x
 #define QUOTE(x) _QUOTE(x)
 static_assert(POWER <= 4);
-#define MAXL 3000
+#define MAXL 2000
 
 using LL = long long;
 
@@ -264,11 +262,13 @@ int main() {
             puts("-1");
             continue;
         }
+        auto d = gcd(b, c);
         for (;;) {
-            auto d = gcd(b, c);
-            if (d.is1()) break;
-            c.div(d);
+            auto d2 = gcd(d * d, c);
+            if (d2 == d) break;
+            d = d2;
         }
+        c.div(d);
         c.println();
     }
     return 0;

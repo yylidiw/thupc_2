@@ -1,6 +1,6 @@
 args:
   T: 10
-  l: 3000
+  l: 2000
 compile:
   c: -O2 -std=c11
   cpp: -O2 -std=c++14
@@ -15,11 +15,19 @@ data:
   - cases: [2]
     args:
       T: 2
-      l: 3000
+      l: 2000
   - cases: [3]
     args:
       T: 10
-      l: 3000
+      l: 2000
+  - cases: [4]  # 卡辗转相除求高精度 gcd
+    args:
+      T: 10
+      l: 2000
+  - cases: [5]  # 卡非倍增
+    args:
+      T: 10
+      l: 2000
 folder: problem
 memory limit: 512 MiB
 name: K
@@ -33,7 +41,7 @@ samples:
   - cases: [3]
     args:
       T: 10
-      l: 3000
+      l: 2000
 time limit: 1.0
 title:
   zh-cn: 幸运位置

@@ -4,7 +4,7 @@
 #define _QUOTE(x) #x
 #define QUOTE(x) _QUOTE(x)
 static_assert(POWER <= 4);
-#define MAXL 3000
+#define MAXL 2000
 
 namespace NBigint {
     using LL = long long;
