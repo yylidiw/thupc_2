@@ -1,4 +1,5 @@
 import sys
+from copy import deepcopy
 
 def gcd(a, b):
     return a if b == 0 else gcd(b, a % b)
@@ -12,9 +13,12 @@ if __name__ == "__main__":
             print('-1')
             continue
 
+        n = deepcopy(c)
         while True:
-            d = gcd(b, c)
+            d = gcd(b, n)
+            # print(b, c, d)
             if d == 1:
                 break
-            c //= d
-        print(c)
+            n //= d
+        # print(a * n + b, c)
+        print(n)

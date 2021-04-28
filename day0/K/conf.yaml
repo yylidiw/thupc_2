@@ -1,7 +1,9 @@
-args: {}
+args:
+  T: 10
+  l: 3000
 compile:
   c: -O2 -std=c11
-  cpp: -O2 -std=c++14 -w
+  cpp: -O2 -std=c++14
   java: ''
   pas: -O2
   py: ''
@@ -13,11 +15,11 @@ data:
   - cases: [2]
     args:
       T: 2
-      l: 2000
+      l: 3000
   - cases: [3]
     args:
       T: 10
-      l: 2000
+      l: 3000
 folder: problem
 memory limit: 512 MiB
 name: K
@@ -31,7 +33,7 @@ samples:
   - cases: [3]
     args:
       T: 10
-      l: 2000
+      l: 3000
 time limit: 1.0
 title:
   zh-cn: 幸运位置
@@ -40,8 +42,8 @@ users:
   function2:
     std_cpp:
       expected: == 100
-      path: function2/main.cpp
+      path: function2/std.cpp
     std_py:
       expected: == 100
-      path: function2/main.py
+      path: function2/std.py
 version: 2
