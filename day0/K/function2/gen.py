@@ -1,5 +1,6 @@
 import yaml
 import os
+import random
 from random import randint
 import sys
 from math import log
@@ -7,6 +8,7 @@ from math import log
 from dotmap import DotMap
 
 sys.setrecursionlimit(10000000)
+random.seed(91184)
 
 conf = yaml.safe_load(open('../conf.yaml'))
 conf = DotMap(conf, _dynamic=False)
@@ -47,22 +49,20 @@ if __name__ == "__main__":
                         nosol[randint(0, T - 1)] = 1
                     for t in range(T):
                         if split == 'data' and case == 4:
-                            # lb = randint(l // 4 * 3, l)
-                            # lc = randint(l // 4 * 3, l)
-                            # b = gen_fib(10 ** lb)
-                            # c = gen_fib(10 ** lc)
                             b, c = gen_fib(10 ** randint(l // 4 * 3, l))
-                            pass
-                        # elif split == 'data' and case == 5:
-                        #     base = 2 + t
-                        #     b = base
-                        #     c = base ** int(l * log(10) / log(base))
+                        elif split == 'data' and case == 5:
+                            base = 2 + t
+                            while True:
+                                b = randint(1, 10 ** l // base)
+                                if gcd(b, base) == 1:
+                                    break
+                            b *= base
+                            c = base ** int(l * log(10) / log(base))
                         else:
                             d1, d2 = (randint(1, 10 ** (l // 4) - 1) for _ in range(2))
                             d = d1 * d2
                             b = d * randint(1, 10 ** (l // 2) - 1)
                             c = d * d2 * randint(1, 10 ** (l // 4) - 1)
-                            # a, b, c = (randint(1, 10 ** l - 1) for _ in range(3))
                             d0 = gcd(b, c)
                         while True:
                             a = randint(1, 10 ** l - 1)

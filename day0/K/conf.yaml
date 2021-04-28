@@ -48,10 +48,10 @@ title:
 type: program
 users:
   function2:
-    std_cpp:
+    cpp std:
       expected: == 100
       path: function2/std.cpp
-    std_py:
-      expected: == 100
-      path: function2/std.py
+    py short:
+      expected: == 80
+      path: function2/short.py
 version: 2
