@@ -20,6 +20,8 @@ if __name__ == "__main__":
 
         n = deepcopy(c)
         while True:
+            # 如果是使用倍增，由于运算数字变大，辗转相除求 gcd 将非常慢（只能通过小数据）
+            # 因此这里使用使用这个迭代：n_0=c, n_{i+1} = \frac{n_i}{(b, n_i)}，可以通过手动构造的第五个点以外的点
             d = gcd(b, n)
             if d == 1:
                 break
