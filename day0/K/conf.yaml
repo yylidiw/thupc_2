@@ -54,4 +54,20 @@ users:
     py short:
       expected: == 80
       path: function2/short.py
+  xzn:
+    xzn-20:
+      expected: == 20
+      path: xzn/xzn-20.cpp
+    # 非倍增
+    xzn-80:
+      expected: == 80
+      path: xzn/xzn-80.cpp
+    # 辗转相除
+    xzn-80-2:
+      expected: == 80
+      path: xzn/xzn-80-2.cpp
+    xzn-100:
+      expected: == 100
+      path: xzn/xzn-100.cpp
+
 version: 2
