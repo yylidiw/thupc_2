@@ -183,6 +183,7 @@ struct juese{
 				repb(df) df[i] -> smzkc(0,at());
 				break;
 			case 3:
+				ck(jj.x * at()); 
 				repb(df) df[i] -> smzkc(min((df[i] -> hp) / 10,jj.x * at()),0);
 				break;
 			case 4:
