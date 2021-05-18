@@ -219,7 +219,7 @@ Circle makeCircleFromStar(int x,int y,int z,int r){
   vec3 center = far.norm();
   double radius = asin(r / far.mod());
   if(isnan(radius)){
-    cerr<<r<<" "<<far.mod()<<endl;
+    cerr<<x<<" "<<y<<" "<<z<<" "<<r<<" "<<far.mod()<<endl;
   }
   return Circle({center,radius});
 }
@@ -273,11 +273,15 @@ int main() {
 
   }
 
-  //cout<<result<<endl;
+  
   //cout<<int(result.radius/M_PI_2 * 100000)<<endl;
   //printf("%d",int(result.radius/M_PI_2 * 100000));
-  
-  put(int(result.radius/M_PI_2 * 100000));
+ 
+ int results = int(result.radius / M_PI_2 * 100000);
+
+  if(results > 99999)
+  results = 99999;
+  put(results);
   putbuf();
   return 0;
 }
