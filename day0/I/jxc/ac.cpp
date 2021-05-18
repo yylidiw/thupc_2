@@ -2,6 +2,7 @@
 using namespace std;
 typedef long long ll;
 const int mod = 998244353;
+const ll inf = 1000000000000000000;
 ll n, a[1230];
 int f[21][1 << 10][3], g[21][1 << 10][3];
 int m;
@@ -46,9 +47,14 @@ void solve(int d) {
 }
 
 int main() {
-	scanf("%lld%d", &n, &m); 
-	for (int i = 0; i < m; ++i)
-		scanf("%lld", &a[i]);
+	assert(scanf("%lld%d", &n, &m) != EOF);
+	assert(n >= 1 && n <= inf);
+	assert(m >= 1 && m <= 10);
+	for (int i = 0; i < m; ++i) {
+		assert(scanf("%lld", &a[i]) != EOF);
+		assert(a[i] >= 0 && a[i] <= inf);
+	}
+	assert(scanf("%*d") == EOF);
 	f[0][0][0] = 1;
 	for (int i = 0; i < 61; ++i)
 		solve(i);
