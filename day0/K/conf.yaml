@@ -1,7 +1,9 @@
-args: {}
+args:
+  T: 10
+  l: 2000
 compile:
   c: -O2 -std=c11
-  cpp: -O2 -std=c++14 -w
+  cpp: -O2 -std=c++14
   java: ''
   pas: -O2
   py: ''
@@ -15,6 +17,14 @@ data:
       T: 2
       l: 2000
   - cases: [3]
+    args:
+      T: 10
+      l: 2000
+  - cases: [4]  # 卡辗转相除求高精度 gcd
+    args:
+      T: 10
+      l: 2000
+  - cases: [5]  # 卡非倍增
     args:
       T: 10
       l: 2000
@@ -38,10 +48,26 @@ title:
 type: program
 users:
   function2:
-    std_cpp:
+    cpp std:
       expected: == 100
-      path: function2/main.cpp
-    std_py:
+      path: function2/std.cpp
+    py short:
+      expected: == 80
+      path: function2/short.py
+  xzn:
+    xzn-20:
+      expected: == 20
+      path: xzn/xzn-20.cpp
+    # 非倍增
+    xzn-80:
+      expected: == 80
+      path: xzn/xzn-80.cpp
+    # 辗转相除
+    xzn-80-2:
+      expected: == 80
+      path: xzn/xzn-80-2.cpp
+    xzn-100:
       expected: == 100
-      path: function2/main.py
+      path: xzn/xzn-100.cpp
+
 version: 2
