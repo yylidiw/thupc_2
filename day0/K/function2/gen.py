@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 with open(filename_in, 'w') as f:
                     print(T, file=f)
                     nosol = [0] * T
-                    if T > 1:
+                    if T > 1 and not (split == 'data' and case == 4):
                         nosol[randint(0, T - 1)] = 1
                     for t in range(T):
                         if split == 'data' and case == 4:
@@ -57,16 +57,23 @@ if __name__ == "__main__":
                                 if gcd(b, base) == 1:
                                     break
                             b *= base
-                            c = base ** int(l * log(10) / log(base))
+
+                            while True:
+                                fake_ans = randint(1, 10 ** (l // 20))
+                                if gcd(fake_ans, base) == 1:
+                                    break
+                            c = fake_ans * base ** int(l * log(10, base) - log(fake_ans, base))
                         else:
                             d1, d2 = (randint(1, 10 ** (l // 4) - 1) for _ in range(2))
                             d = d1 * d2
                             b = d * randint(1, 10 ** (l // 2) - 1)
                             c = d * d2 * randint(1, 10 ** (l // 4) - 1)
-                            d0 = gcd(b, c)
+
+                        d0 = gcd(b, c)
                         while True:
                             a = randint(1, 10 ** l - 1)
                             d = gcd(a, d0)
+
                             if nosol[t] and d != 1 or not nosol[t] and d == 1:
                                 break
 

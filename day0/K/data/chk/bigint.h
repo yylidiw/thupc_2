@@ -35,7 +35,9 @@ namespace NBigint {
         int &operator [] (const int i) { return d[i]; }
         const int &operator [] (const int i) const { return d[i]; }
 
-        void update(const char* s, int buf_len) {
+        bool update(const char* s, int buf_len) {
+            if (buf_len == 0) return false;
+            for (int i = 0; i < buf_len; i++) if (s[i] < '0' || '9' < s[i]) return false;
             len = (buf_len - 1) / POWER + 1;
             for (int i = 0; i < len; i++) {
                 for (int j = max(buf_len - (i + 1) * POWER, 0); j < buf_len - i * POWER; j++) {
@@ -43,6 +45,7 @@ namespace NBigint {
                 }
             }
             while (len > 0 && d[len - 1] == 0) len--;
+            return true;
         }
 
         void read(FILE *f = stdin) {

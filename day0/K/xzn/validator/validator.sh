@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 g++ validator.cpp -o validator
 for (( i = 1; i < 6; i++ )); do
     ./validator < ../../data/$i.in 

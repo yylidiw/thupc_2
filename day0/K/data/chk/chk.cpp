@@ -96,7 +96,7 @@ int main(int argc, char **argv){
 			continue;
 		}
 
-		n.update(out, out_len);
+		if (!n.update(out, out_len)) ret(0, (string("invalid output at case ") + to_string(t)).c_str());
 		auto x = a * n + b;
 		auto d = gcd(x, c);
 		if (!d.is1()) ret(0, (string("wrong answer at case ") + to_string(t)).c_str());
