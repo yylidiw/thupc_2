@@ -6,7 +6,7 @@ figure;
 surf(fx(11:21,:), fy(11:21,:), fz(11:21,:),'LineStyle','none','Facealpha',0.35);
 axis equal;
 hold on
-dataFile = fopen('../../data/3.in','r');
+dataFile = fopen('../../bqsg/data.tmp','r');
 dataL = fscanf(dataFile, '%d');  
 data = reshape(dataL(2:end),4,[])';
 
