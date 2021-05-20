@@ -7,11 +7,12 @@ surf(fx(11:21,:), fy(11:21,:), fz(11:21,:),'LineStyle','none','Facealpha',0.35);
 axis equal;
 hold on
 
-dataFile = fopen('../bqsg/data.tmp','r');
+dataFile = fopen('../bqsg/lgw/1191.393055.tmp','r');
 dataL = fscanf(dataFile, '%d');  
 data = reshape(dataL(2:end),4,[])';
+fclose(dataFile);
 
-modN = floor((length(dataL)-1)/4/100);
+modN = max([1,floor((length(dataL)-1)/4/1000)]);
 
 circles = zeros(size(data,1),3);
 circlesP = zeros(size(data,1),3);

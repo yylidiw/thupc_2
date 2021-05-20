@@ -1,11 +1,11 @@
 from random import random
 import numpy as np
 from tqdm import tqdm
-N = 10000
+N = 10
 alpha = random()*np.pi*2
-beta = np.floor(random()*60000)*np.pi/100000/2
+r = np.floor(random()*70000+10000)*np.pi/100000/2
+beta = (np.pi/2 - r) * (random()+2)/3
 center = np.array([np.cos(alpha) * np.sin(beta), np.sin(alpha) * np.sin(beta), np.cos(beta)])
-r = (np.pi/2 - beta) * (random()+2)/3
 print(N)
 for i in tqdm(range(N)):
   while True:

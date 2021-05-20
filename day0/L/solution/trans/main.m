@@ -1,16 +1,17 @@
 
 %clear all;
-close all;
+%close all;
 figure;
 [fx,fy,fz] = sphere(20);
 surf(fx(11:21,:), fy(11:21,:), fz(11:21,:),'LineStyle','none','Facealpha',0.35);
 axis equal;
 hold on
-dataFile = fopen('../../bqsg/data.tmp','r');
+dataFile = fopen('../../bqsg/lgw/1191.393055.tmp','r');
 dataL = fscanf(dataFile, '%d');  
+fclose(dataFile);
 data = reshape(dataL(2:end),4,[])';
 
-modN = floor((length(dataL)-1)/4/100);
+modN = max([1,floor((length(dataL)-1)/4/1000)]);
 
 circlesR = zeros(size(data,1),3);
 circles = zeros(size(data,1),3);

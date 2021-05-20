@@ -1,6 +1,6 @@
 function result = RIA(N,circles)
-  %ni = randperm(N);
- %circles(1:N,:) = circles(ni,:);
+ ni = randperm(N);
+ circles(1:N,:) = circles(ni,:);
   result = circles(1,:);
   for i = 2:N
     if(dist(result,circles(i,:)) > result(3) - circles(i,3))
