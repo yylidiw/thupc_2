@@ -1,9 +1,9 @@
 while true
 do
  python datagen.py > ./data.tmp
- ./plane < ./data.tmp > ./plane.tmp
- ./std < ./data.tmp > ./std.tmp
- 
+ ./plane < ./data.tmp > ./plane.tmp 2> plantd.tmp
+ ./std < ./data.tmp > ./std.tmp 2> stdd.tmp
+ ./check plantd.tmp stdd.tmp
   if  diff plane.tmp std.tmp; then #比较两个输出文件
     printf AC #结果相同显示AC
   else

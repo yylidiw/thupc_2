@@ -7,11 +7,11 @@ surf(fx(11:21,:), fy(11:21,:), fz(11:21,:),'LineStyle','none','Facealpha',0.35);
 axis equal;
 hold on
 
-data = [30 10 10 9;
-100 -10 100 50;
--30 100 50 30;
-12 42 64 20;
-287 123 46 31;];
+dataFile = fopen('../bqsg/data.tmp','r');
+dataL = fscanf(dataFile, '%d');  
+data = reshape(dataL(2:end),4,[])';
+
+modN = floor((length(dataL)-1)/4/100);
 
 circles = zeros(size(data,1),3);
 circlesP = zeros(size(data,1),3);
@@ -27,6 +27,8 @@ planer = makeCircleFromCircle(result);
 plotCirclePlane(planer);
 plotCircle(result);
 for i = 1:length(circles)
+  if(mod(i,modN)==0)
   plotCircle(circles(i,:));
   plotCirclePlane(circlesP(i,:));
+end
 end

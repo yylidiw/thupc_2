@@ -330,6 +330,7 @@ int main() {
   //cout<<result.x<<" "<<result.y<<" "<<result.r<<endl;
   //printf("%d",int(result.r/M_PI_2 * 100000));
  
+  fprintf(stderr,"%.6f",resultR.r/M_PI_2 * 100000);
   int results = int(resultR.r / M_PI_2 * 100000);
 
   if(results > 99999)

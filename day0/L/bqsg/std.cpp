@@ -274,7 +274,7 @@ int main() {
   }
 
   
-  //cout<<int(result.radius/M_PI_2 * 100000)<<endl;
+  fprintf(stderr,"%.6f",result.radius/M_PI_2 * 100000);
   //printf("%d",int(result.radius/M_PI_2 * 100000));
  
  int results = int(result.radius / M_PI_2 * 100000);
