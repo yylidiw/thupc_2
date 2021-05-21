@@ -18,7 +18,7 @@ samples:
  - cases: [1]
 time limit: 1.0
 title:
-  zh-cn: I. 游戏
+  zh-cn: 游戏
 type: program
 users:
   zyb:
