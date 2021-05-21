@@ -42,7 +42,7 @@ samples:
     args:
       T: 10
       l: 2000
-time limit: 1.0
+time limit: 2.0
 title:
   zh-cn: 幸运位置
 type: program
