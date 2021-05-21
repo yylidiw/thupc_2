@@ -160,7 +160,7 @@ $HP,MP,atk,def$ 将由输入给出。
 
 假设其受到 $x$ 点伤害和 $y$ 点真实伤害，那么：
 
-​	否则若该角色因拥有【天赋—血肉皮囊】而免疫一半真实伤害，则其生命值扣除 $max(x-D,0)+y-\left\lfloor\frac y2\right\rfloor$。
+​	若该角色因拥有【天赋—血肉皮囊】而免疫一半真实伤害，则其生命值扣除 $max(x-D,0)+y-\left\lfloor\frac y2\right\rfloor$。
 
 ​	否则，其生命值扣除 $\max(x-D,0)+y$。
 
