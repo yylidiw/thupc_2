@@ -1,4 +1,7 @@
-#include<bits/stdc++.h>
+#include<cstdio>
+#include<iostream>
+#include<cstdlib>
+#include<queue>
 #define gc getchar()
 #define pc putchar
 #define pii pair<int,int>
