@@ -39,3 +39,28 @@ $$
 $$
 
 设高精度整数长度为 $l$，高精度 gcd 的复杂度为 $O(l^2)$，高精度乘法、除法可直接使用复杂度为 $O(l^2)$ 的实现，倍增次数为 $O(\log l)$，总时间复杂度为 $O(l^2 \log l)$。
+
+## 随机化算法
+
+本题也可以使用随机化算法通过。
+
+仍然在 $(a,b,c)=1$ 的情况下，考虑 $\forall p\mid c$：
+
+- $p \mid a$，则 $p \nmid b$，$p\nmid (an+b)$ 恒成立
+
+- $p \nmid a$ 时，只需使 $n \not\equiv -a^{-1}b \pmod{p}$
+
+设 $P=\{p\mid p \mid c, p\nmid a\}, t=\lvert P \rvert$，根据中国剩余定理可以得到在模 $N=\prod_{p \in P} p$ 意义下，$n$ 的解的数目为 $\prod_{p \in P} (p-1)$，随机到解的试验次数的期望为：
+
+$$
+E=\prod_{p \in P} \frac{p}{p-1} \le  \prod_{i=1}^t \frac{p_i}{p_i-1}
+$$
+
+最坏情况下：
+$$
+E = \prod_{i=1}^t \frac{1}{1-p_i^{-1}} \ge \sum_{i=1}^{p_t} \frac{1}{i} = \Theta(\log p_t)
+$$
+
+根据 $t=O(\omega(c))=O\left(\frac l{\log l}\right), p_t=\Theta(t \log t)$ 可以估计出 $E=O(\log l)$。
+
+保持现有题意下根本卡不掉；如果一定要卡的话，可以对 $n$ 进行限制：求最大的 $n$ 使 $n \mid c$ 且 $(an+b,c)=1$。
